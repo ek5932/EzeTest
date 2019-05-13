@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EzeTest.TestRunner.WebApi</name>
+    </assembly>
+    <members>
+        <member name="M:EzeTest.TestRunner.WebApi.Controllers.TestRunController.RunTest(System.Int32,EzeTest.TestRunner.WebApi.Resources.TestConfigurationResource)">
+            <summary>
+            Run a test
+            </summary>
+            <param name="id">The if of the test definition to run</param>
+            <param name="testConfiguration">The configuration to use when running the test</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
