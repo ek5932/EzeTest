@@ -1,0 +1,5 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/EzeTest.AuthServer/obj/Debug/netcoreapp2.2/EzeTest.AuthServer.csprojAssemblyReference.cache
