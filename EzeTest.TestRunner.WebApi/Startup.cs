@@ -9,6 +9,9 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
     using Swashbuckle.AspNetCore.Swagger;
+    using System;
+    using System.IO;
+    using System.Reflection;
 
     public class Startup
     {
@@ -16,7 +19,6 @@
 
         public Startup()
         {
-
         }
 
         public void ConfigureServices(IServiceCollection services)
