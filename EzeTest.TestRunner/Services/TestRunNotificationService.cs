@@ -1,17 +1,17 @@
 ﻿namespace EzeTest.TestRunner.Services
 {
     using System;
-    using EzeTest.Framework.Contracts;
+    using System.Collections.Generic;
     using EzeTest.TestRunner.Model;
     using EzeTest.TestRunner.Services.Interfaces;
 
     public class TestRunNotificationService : ITestRunNotificationService
     {
-        private readonly INotificationOutlet[] notificationOutlets;
+        private readonly List<INotificationOutlet> notificationOutlets;
 
         public TestRunNotificationService()
         {
-            notificationOutlets = new INotificationOutlet[0];
+            notificationOutlets = new List<INotificationOutlet>();
         }
 
         public void NotifyTestFailed(TestRun testRun) => Notify(x => x.NotifyTestFailed(testRun));

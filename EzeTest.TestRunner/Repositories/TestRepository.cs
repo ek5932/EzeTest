@@ -30,7 +30,9 @@
             {
                 ITestCommand testCommand = testCommandFactory.Create(item);
                 if (testCommand == null)
-                    throw new ApplicationException("testCommand is NULL");
+                {
+                    throw new ApplicationException("The testCommand is null.");
+                }
 
                 test.Add(testCommand);
             }
@@ -43,12 +45,14 @@
             // TODO:
             return new TestDefinition(4)
             {
-                new TestCommand{
+                new TestCommand
+                {
                      Id = 1,
                      Type = TestCommandType.HttpGet,
                      Url = "https://www.google.com"
                 },
-                 new TestCommand{
+                new TestCommand
+                {
                      Id = 2,
                      Type = TestCommandType.HttpGet,
                      Url = "https://play.google.com"

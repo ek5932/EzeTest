@@ -16,15 +16,15 @@
 
         public TestRunController(ITestOrchestrationService testOrchestrationService, IObjectMapper<TestConfigurationResource, TestRunConfiguration> objectMapper)
         {
-            this.objectMapper = objectMapper.VerifyIsSet(nameof(objectMapper));
             this.testOrchestrationService = testOrchestrationService.VerifyIsSet(nameof(testOrchestrationService));
+            this.objectMapper = objectMapper.VerifyIsSet(nameof(objectMapper));
         }
 
         /// <summary>
-        /// Run a test
+        /// Runs a test.
         /// </summary>
-        /// <param name="id">The if of the test definition to run</param>
-        /// <param name="testConfiguration">The configuration to use when running the test</param>
+        /// <param name="id">The ID of the test definition to run.</param>
+        /// <param name="testConfiguration">The configuration to use when running the test.</param>
         /// <returns></returns>
         [HttpPost("{id}")]
         public async Task<ActionResult> RunTest(int id, TestConfigurationResource testConfiguration)

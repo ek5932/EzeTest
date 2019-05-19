@@ -5,7 +5,6 @@
     using EzeTest.Framework.Contracts;
     using EzeTest.TestRunner.Model;
     using EzeTest.TestRunner.Repositories;
-    using EzeTest.TestRunner.Services.Interfaces;
 
     public class TestOrchestrationService : ITestOrchestrationService
     {
@@ -36,9 +35,13 @@
                 await testRunnerService.RunTest(testRun);
 
                 if (testRun.WasSuccessful)
+                {
                     testRunNotificationService.NotifyTestPassed(testRun);
+                }
                 else
+                {
                     testRunNotificationService.NotifyTestFailed(testRun);
+                }
             }
             catch
             {
@@ -53,7 +56,10 @@
         {
             Test test = await testRepository.GetById(testId);
             if (test == null)
-                throw new ApplicationException($"No test definition exists with id {testId}");
+            {
+                throw new ApplicationException($"No test definition exists with ID {testId}.");
+            }
+
             return test;
         }
     }

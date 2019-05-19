@@ -23,15 +23,12 @@
             testRun.VerifyIsSet(nameof(testRun));
             testRun.Configuration.VerifyIsSet(nameof(testRun.Configuration));
             testRun.TestDefinition.VerifyIsSet(nameof(testRun.TestDefinition));
-
-            testRun.TotalTimeTaken = await
-                Time.Async(() => DoRunTest(testRun)
-            );
+            testRun.TotalTimeTaken = await Time.Async(() => DoRunTest(testRun));
         }
 
         private async Task DoRunTest(TestRun testRun)
         {
-            logger.LogInformation($"Starting execution of test '{testRun.TestDefinition.Id}'");
+            logger.LogInformation($"Starting execution of test '{testRun.TestDefinition.Id}'.");
 
             try
             {
@@ -44,14 +41,14 @@
                     bool shouldTerminate = ProcessTestResult(testCommand, commandResult, testRun.Configuration);
                     if (shouldTerminate)
                     {
-                        logger.LogWarning("Prematurely terminating test");
+                        logger.LogWarning("Prematurely terminating test.");
                         break;
                     }
                 }
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, $"Unexpected error running test {testRun.Id}");
+                logger.LogError(ex, $"Unexpected error running test {testRun.Id}.");
                 testRun.MarkAsFailed(ex.Message);
             }
         }
@@ -60,17 +57,17 @@
         {
             if (!commandResult.ExecutedSuccessfully)
             {
-                logger.LogWarning($"Executed command {command.Id} with failure result");
+                logger.LogWarning($"Executed command {command.Id} with failure result.");
 
                 if (configuration.ExitOnFailure)
                 {
-                    logger.LogWarning($"Test is configured with ExitOnFailure; quitting test");
+                    logger.LogWarning($"Test is configured with ExitOnFailure; quitting test.");
                     return true;
                 }
             }
             else
             {
-                logger.LogInformation($"Executed command {command.Id} with success result");
+                logger.LogInformation($"Executed command {command.Id} with success result.");
             }
 
             return false;
@@ -78,16 +75,15 @@
 
         private async Task<ITestCommandResult> RunCommand(TestRun testRun, Test test, ITestCommand command, TestContext context)
         {
-            logger.LogInformation($"Starting execution of command {command.Id} for test {test.Id}");
+            logger.LogInformation($"Starting execution of command {command.Id} for test {test.Id}.");
 
             try
             {
-
                 return await command.Execute(context, CancellationToken.None);
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, $"Unexpected error executing command {command.Id}");
+                logger.LogError(ex, $"Unexpected error executing command {command.Id}.");
                 throw;
             }
         }
