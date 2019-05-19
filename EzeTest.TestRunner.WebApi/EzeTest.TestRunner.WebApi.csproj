@@ -8,6 +8,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>$(SolutionDir)\EzeTest.TestRunner.WebApi\EzeTest.TestRunner.WebApi.xml</DocumentationFile>
+    <noWarn>1591</noWarn>
   </PropertyGroup>
 
   <ItemGroup>
