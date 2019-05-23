@@ -11,18 +11,18 @@
 
         public AutoMapperObjectMapper()
         {
-            var config = new MapperConfiguration(ConfigureMapping);
+            var config = new MapperConfiguration(this.ConfigureMapping);
             config.AssertConfigurationIsValid();
-            mapper = config.CreateMapper();
+            this.mapper = config.CreateMapper();
         }
 
-        public TDestination Map(TSource map) => mapper.Map<TDestination>(map);
+        public TDestination Map(TSource map) => this.mapper.Map<TDestination>(map);
 
-        public TDestination[] Map(IEnumerable<TSource> map) => MapCollection(map, x => Map(x));
+        public TDestination[] Map(IEnumerable<TSource> map) => MapCollection(map, x => this.Map(x));
 
-        public TSource Map(TDestination map) => mapper.Map<TSource>(map);
+        public TSource Map(TDestination map) => this.mapper.Map<TSource>(map);
 
-        public TSource[] Map(IEnumerable<TDestination> map) => MapCollection(map, x => Map(x));
+        public TSource[] Map(IEnumerable<TDestination> map) => MapCollection(map, x => this.Map(x));
 
         protected virtual void ConfigureMapping(IMapperConfigurationExpression mappingConfiguration)
         {

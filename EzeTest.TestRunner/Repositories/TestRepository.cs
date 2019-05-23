@@ -17,20 +17,21 @@
         public TestRepository(ITestCommandFactory testCommandFactory)
         {
             this.testCommandFactory = testCommandFactory.VerifyIsSet(nameof(testCommandFactory));
-
-            httpClient = new HttpClient();
+            this.httpClient = new HttpClient();
         }
 
         public Task<Test> GetById(long testId)
         {
-            var testDefinition = GetTest();
+            var testDefinition = this.GetTest();
             var test = new Test(testDefinition.Id);
 
             foreach (var item in testDefinition)
             {
-                ITestCommand testCommand = testCommandFactory.Create(item);
+                ITestCommand testCommand = this.testCommandFactory.Create(item);
                 if (testCommand == null)
-                    throw new ApplicationException("testCommand is NULL");
+                {
+                    throw new ApplicationException("The testCommand is null.");
+                }
 
                 test.Add(testCommand);
             }
@@ -43,12 +44,14 @@
             // TODO:
             return new TestDefinition(4)
             {
-                new TestCommand{
+                new TestCommand
+                {
                      Id = 1,
                      Type = TestCommandType.HttpGet,
                      Url = "https://www.google.com"
                 },
-                 new TestCommand{
+                new TestCommand
+                {
                      Id = 2,
                      Type = TestCommandType.HttpGet,
                      Url = "https://play.google.com"

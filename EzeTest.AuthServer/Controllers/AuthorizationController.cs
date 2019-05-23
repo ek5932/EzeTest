@@ -14,11 +14,11 @@
 
     public class AuthorizationController : Controller
     {
-        private readonly OpenIddictApplicationManager<OpenIddictApplication> _applicationManager;
+        private readonly OpenIddictApplicationManager<OpenIddictApplication> applicationManager;
 
         public AuthorizationController(OpenIddictApplicationManager<OpenIddictApplication> applicationManager)
         {
-            _applicationManager = applicationManager.VerifyIsSet(nameof(applicationManager));
+            this.applicationManager = applicationManager.VerifyIsSet(nameof(applicationManager));
         }
 
         [HttpPost("~/connect/token"), Produces("application/json")]
@@ -28,11 +28,10 @@
             {
                 // Note: the client credentials are automatically validated by OpenIddict:
                 // if client_id or client_secret are invalid, this action won't be invoked.
-
-                var application = await _applicationManager.FindByClientIdAsync(request.ClientId, HttpContext.RequestAborted);
+                var application = await this.applicationManager.FindByClientIdAsync(request.ClientId, HttpContext.RequestAborted);
                 if (application == null)
                 {
-                    return BadRequest(new OpenIdConnectResponse
+                    return this.BadRequest(new OpenIdConnectResponse
                     {
                         Error = OpenIdConnectConstants.Errors.InvalidClient,
                         ErrorDescription = "The client application was not found in the database."
@@ -40,12 +39,12 @@
                 }
 
                 // Create a new authentication ticket.
-                var ticket = CreateTicket(application);
+                var ticket = this.CreateTicket(application);
 
-                return SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);
+                return this.SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);
             }
 
-            return BadRequest(new OpenIdConnectResponse
+            return this.BadRequest(new OpenIdConnectResponse
             {
                 Error = OpenIdConnectConstants.Errors.UnsupportedGrantType,
                 ErrorDescription = "The specified grant type is not supported."
@@ -62,11 +61,15 @@
                 OpenIdConnectConstants.Claims.Role);
 
             // Use the client_id as the subject identifier.
-            identity.AddClaim(OpenIdConnectConstants.Claims.Subject, application.ClientId,
+            identity.AddClaim(
+                OpenIdConnectConstants.Claims.Subject,
+                application.ClientId,
                 OpenIdConnectConstants.Destinations.AccessToken,
                 OpenIdConnectConstants.Destinations.IdentityToken);
 
-            identity.AddClaim(OpenIdConnectConstants.Claims.Name, application.DisplayName,
+            identity.AddClaim(
+                OpenIdConnectConstants.Claims.Name,
+                application.DisplayName,
                 OpenIdConnectConstants.Destinations.AccessToken,
                 OpenIdConnectConstants.Destinations.IdentityToken);
 

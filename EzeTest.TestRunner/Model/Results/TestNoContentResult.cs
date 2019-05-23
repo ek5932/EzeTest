@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EzeTest.TestRunner.Model.Results
+﻿namespace EzeTest.TestRunner.Model.Results
 {
     public class TestNoContentResult : ITestCommandResult
     {

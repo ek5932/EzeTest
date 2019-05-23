@@ -8,7 +8,6 @@
 
         bool HasValidAuthToken();
 
-
         void SetAuthSession(HttpSession session);
     }
 }

@@ -1,5 +1,8 @@
 ﻿namespace EzeTest.TestRunner.WebApi
 {
+    using System;
+    using System.IO;
+    using System.Reflection;
     using EzeTest.Framework.Http;
     using EzeTest.Framework.Mapping;
     using EzeTest.TestRunner.Factory;
@@ -12,11 +15,10 @@
 
     public class Startup
     {
-        private const string serviceName = "EzeTest.TestRunner";
+        private const string ServiceName = "EzeTest.TestRunner";
 
         public Startup()
         {
-
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -33,7 +35,8 @@
             services.AddMvc();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = serviceName, Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = ServiceName, Version = "v1" });
+
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -46,7 +49,7 @@
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", serviceName);
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", ServiceName);
             });
 
             app.UseMvc();

@@ -18,7 +18,7 @@
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -47,8 +47,7 @@
             services.AddOpenIddict()
                     .AddCore(options =>
                         options.UseEntityFrameworkCore()
-                               .UseDbContext<ApplicationDbContext>()
-                    )
+                               .UseDbContext<ApplicationDbContext>())
 
                     // Register the OpenIddict server handler.
                     .AddServer(options =>
@@ -76,7 +75,7 @@
             app.UseAuthentication();
             app.UseMvc();
 
-            InitializeAsync(app.ApplicationServices).GetAwaiter().GetResult();
+            this.InitializeAsync(app.ApplicationServices).GetAwaiter().GetResult();
         }
 
         private async Task InitializeAsync(IServiceProvider services)
@@ -188,10 +187,10 @@
                             ClientSecret = "388D45FA-B36B-4988-BA59-B187D329C207",
                             DisplayName = "My client application",
                             Permissions =
-                        {
-                            OpenIddictConstants.Permissions.Endpoints.Token,
-                            OpenIddictConstants.Permissions.GrantTypes.ClientCredentials
-                        }
+                            {
+                                OpenIddictConstants.Permissions.Endpoints.Token,
+                                OpenIddictConstants.Permissions.GrantTypes.ClientCredentials
+                            }
                         };
 
                         await manager.CreateAsync(descriptor);

@@ -1,7 +1,7 @@
-﻿using System.Net;
-
-namespace EzeTest.TestRunner.Model.Results
+﻿namespace EzeTest.TestRunner.Model.Results
 {
+    using System.Net;
+
     public class HttpFailedRequestResult : ITestCommandResult
     {
         public HttpFailedRequestResult(string url, HttpStatusCode httpStatusCode, string reaseonPhrase, string responseContent)
