@@ -6,7 +6,6 @@
     {
         public ExceptionResult(Exception exception)
         {
-
         }
 
         public bool ExecutedSuccessfully => false;

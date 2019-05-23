@@ -1,8 +1,8 @@
-﻿using EzeTest.Framework.Contracts;
-using EzeTest.TestRunner.TestContent;
-
-namespace EzeTest.TestRunner.Model.Results
+﻿namespace EzeTest.TestRunner.Model.Results
 {
+    using EzeTest.Framework.Contracts;
+    using EzeTest.TestRunner.TestContent;
+
     public class TestContentComparisonResult : ITestCommandResult
     {
         private readonly ITestContentComparison comparisonResult;
@@ -12,6 +12,6 @@ namespace EzeTest.TestRunner.Model.Results
             this.comparisonResult = comparisonResult.VerifyIsSet(nameof(comparisonResult));
         }
 
-        public bool ExecutedSuccessfully => comparisonResult.AreEqual;
+        public bool ExecutedSuccessfully => this.comparisonResult.AreEqual;
     }
 }

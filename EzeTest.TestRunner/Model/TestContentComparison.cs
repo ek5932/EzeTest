@@ -1,12 +1,12 @@
-﻿using EzeTest.TestRunner.TestContent;
-
-namespace EzeTest.TestRunner.Model
+﻿namespace EzeTest.TestRunner.Model
 {
+    using EzeTest.TestRunner.TestContent;
+
     public class TestContentComparison : ITestContentComparison
     {
         public TestContentComparison(bool areEqual)
         {
-            AreEqual = areEqual;
+            this.AreEqual = areEqual;
         }
 
         public bool AreEqual { get; }

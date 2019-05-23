@@ -26,8 +26,8 @@
             testCommand.VerifyIsSet(nameof(testCommand));
             testCommand.Type.VerifyIsSet(nameof(testCommand.Type)); // TODO: Test
 
-            HttpMethod httpMethod = GetHttpMethod(testCommand.Type);
-            return new HttpCommand(loggerFactory, httpAuthService, httpMethod, testCommand);
+            HttpMethod httpMethod = this.GetHttpMethod(testCommand.Type);
+            return new HttpCommand(this.loggerFactory, this.httpAuthService, httpMethod, testCommand);
         }
 
         private HttpMethod GetHttpMethod(TestCommandType type)

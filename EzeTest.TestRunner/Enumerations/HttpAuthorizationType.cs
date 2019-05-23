@@ -1,5 +1,4 @@
-﻿
-namespace EzeTest.TestRunner.Enumerations
+﻿namespace EzeTest.TestRunner.Enumerations
 {
     public enum HttpAuthorizationType
     {

@@ -17,7 +17,7 @@
 
     public class HttpCommand : ITestCommand
     {
-        private const string HTTP_AUTH_HEADER_KEY = "AuthToken";
+        private const string HttpAuthHeaderKey = "AuthToken";
 
         private readonly HttpClient httpClient;
         private readonly HttpMethod httpMethod;
@@ -35,39 +35,38 @@
             this.httpClient = new HttpClient();
         }
 
-        public long Id => testCommand.Id;
+        public long Id => this.testCommand.Id;
 
         public async Task<ITestCommandResult> Execute(ITestContext testContext, CancellationToken cancellationToken)
         {
             testContext.VerifyIsSet(nameof(testContext));
-            logger.LogInformation($"Executing {nameof(HttpCommand)} with id {Id}");
+            this.logger.LogInformation($"Executing {nameof(HttpCommand)} with id {Id}");
 
             try
             {
-                var request = new HttpRequestMessage(httpMethod, testCommand.Url);
+                var request = new HttpRequestMessage(this.httpMethod, this.testCommand.Url);
 
-                if (testCommand.RequestAuthType == HttpAuthorizationType.OAuth)
+                if (this.testCommand.RequestAuthType == HttpAuthorizationType.OAuth)
                 {
-                    logger.LogInformation($"Using {testCommand.RequestAuthType} auth");
-                    await SetAuthHeaders(testContext, request);
+                    this.logger.LogInformation($"Using {this.testCommand.RequestAuthType} auth");
+                    await this.SetAuthHeaders(testContext, request);
                 }
 
-                if (!string.IsNullOrWhiteSpace(testCommand.JsonInputContent))
+                if (!string.IsNullOrWhiteSpace(this.testCommand.JsonInputContent))
                 {
-                    logger.LogInformation("Sending Json input content");
+                    this.logger.LogInformation("Sending Json input content");
 
-                    request.Content = new
-                        StringContent(testCommand.JsonInputContent, Encoding.UTF8, "application/json");
+                    request.Content = new StringContent(this.testCommand.JsonInputContent, Encoding.UTF8, "application/json");
                 }
 
-                using (HttpResponseMessage response = await httpClient.SendAsync(request))
+                using (HttpResponseMessage response = await this.httpClient.SendAsync(request))
                 {
-                    return await ProcessResponse(response);
+                    return await this.ProcessResponse(response);
                 }
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Unexpected error executing command");
+                this.logger.LogError(ex, "Unexpected error executing command");
                 return new ExceptionResult(ex);
             }
         }
@@ -76,16 +75,18 @@
         {
             if (!testContext.HasValidAuthToken())
             {
-                logger.LogInformation("HasValidAuthToken: false");
+                this.logger.LogInformation("HasValidAuthToken: false");
 
                 try
                 {
-                    HttpSession session = await httpAuthService.Authenticate();
+                    HttpSession session = await this.httpAuthService.Authenticate();
                     if (session == null)
+                    {
                         throw new ApplicationException("Authenticate response is Null");
+                    }
 
                     testContext.SetAuthSession(session);
-                    logger.LogInformation("Successfully aquired a new token");
+                    this.logger.LogInformation("Successfully aquired a new token");
                 }
                 catch (Exception ex)
                 {
@@ -94,10 +95,12 @@
             }
 
             if (string.IsNullOrEmpty(testContext.HttpAuthToken))
+            {
                 throw new ApplicationException("Context HttpAuthToken IsNullOrEmpty");
+            }
 
-            request.Headers.Add(HTTP_AUTH_HEADER_KEY, testContext.HttpAuthToken);
-            logger.LogDebug($"{HTTP_AUTH_HEADER_KEY}: {testContext.HttpAuthToken}");
+            request.Headers.Add(HttpAuthHeaderKey, testContext.HttpAuthToken);
+            this.logger.LogDebug($"{HttpAuthHeaderKey}: {testContext.HttpAuthToken}");
         }
 
         private async Task<ITestCommandResult> ProcessResponse(HttpResponseMessage response)
@@ -105,27 +108,33 @@
             string responseContent = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
-                var failedResult = new HttpFailedRequestResult(testCommand.Url, response.StatusCode, response.ReasonPhrase, responseContent);
-                logger.LogWarning($"{Logging.COMMAND_FAILURE}: IsSuccessStatusCode: false; {failedResult}");
+                var failedResult = new HttpFailedRequestResult(this.testCommand.Url, response.StatusCode, response.ReasonPhrase, responseContent);
+                this.logger.LogWarning($"{Logging.COMMAND_FAILURE}: IsSuccessStatusCode: false; {failedResult}");
                 return failedResult;
             }
 
-            if (testCommand.ExpectedResult != null)
+            if (this.testCommand.ExpectedResult != null)
             {
                 ITestContent jsonContent = JsonContent.LoadFromString(responseContent);
-                ITestContentComparison comparisonResult = jsonContent.CompareTo(testCommand.ExpectedResult, testCommand.ExpectedResultComparisonType);
+                ITestContentComparison comparisonResult = jsonContent.CompareTo(this.testCommand.ExpectedResult, this.testCommand.ExpectedResultComparisonType);
                 if (comparisonResult == null)
+                {
                     throw new ApplicationException("Comparison result is NULL");
+                }
 
                 if (comparisonResult.AreEqual)
-                    logger.LogInformation($"{Logging.COMMAND_PASS}: ComparisonResult");
+                {
+                    this.logger.LogInformation($"{Logging.COMMAND_PASS}: ComparisonResult");
+                }
                 else
-                    logger.LogWarning($"{Logging.COMMAND_FAILURE}: ComparisonResult; {comparisonResult}");
+                {
+                    this.logger.LogWarning($"{Logging.COMMAND_FAILURE}: ComparisonResult; {comparisonResult}");
+                }
 
                 return new TestContentComparisonResult(comparisonResult);
             }
 
-            logger.LogInformation($"{Logging.COMMAND_PASS}: TestNoContentResult");
+            this.logger.LogInformation($"{Logging.COMMAND_PASS}: TestNoContentResult");
             return new TestNoContentResult();
         }
     }

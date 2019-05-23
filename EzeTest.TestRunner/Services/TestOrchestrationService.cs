@@ -21,31 +21,31 @@
 
         public async Task RunTest(long testId, TestRunConfiguration configuration)
         {
-            Test test = await GetTestDefinition(testId);
-            await PerformRunTest(configuration, test);
+            Test test = await this.GetTestDefinition(testId);
+            await this.PerformRunTest(configuration, test);
         }
 
         private async Task<TestRun> PerformRunTest(TestRunConfiguration configuration, Test test)
         {
             var testRun = new TestRun(test, configuration);
-            testRunNotificationService.NotifyTestRunStarting(testRun);
+            this.testRunNotificationService.NotifyTestRunStarting(testRun);
 
             try
             {
-                await testRunnerService.RunTest(testRun);
+                await this.testRunnerService.RunTest(testRun);
 
                 if (testRun.WasSuccessful)
                 {
-                    testRunNotificationService.NotifyTestPassed(testRun);
+                    this.testRunNotificationService.NotifyTestPassed(testRun);
                 }
                 else
                 {
-                    testRunNotificationService.NotifyTestFailed(testRun);
+                    this.testRunNotificationService.NotifyTestFailed(testRun);
                 }
             }
             catch
             {
-                testRunNotificationService.NotifyTestFailed(testRun);
+                this.testRunNotificationService.NotifyTestFailed(testRun);
                 throw;
             }
 
@@ -54,7 +54,7 @@
 
         private async Task<Test> GetTestDefinition(long testId)
         {
-            Test test = await testRepository.GetById(testId);
+            Test test = await this.testRepository.GetById(testId);
             if (test == null)
             {
                 throw new ApplicationException($"No test definition exists with ID {testId}.");

@@ -1,8 +1,8 @@
-﻿using EzeTest.TestRunner.Enumerations;
-using Newtonsoft.Json.Linq;
-
-namespace EzeTest.TestRunner.TestContent
+﻿namespace EzeTest.TestRunner.TestContent
 {
+    using EzeTest.TestRunner.Enumerations;
+    using Newtonsoft.Json.Linq;
+
     public interface ITestContent
     {
         JToken JsonObject { get; }

@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-
-namespace EzeTest.TestRunner.Model
+﻿namespace EzeTest.TestRunner.Model
 {
+    using System.Collections.Generic;
+
     public class Test : List<ITestCommand>
     {
         public Test(long id)
         {
-            Id = id;
+            this.Id = id;
         }
 
         public long Id { get; }

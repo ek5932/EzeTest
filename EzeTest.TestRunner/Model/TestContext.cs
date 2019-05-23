@@ -7,9 +7,9 @@
     {
         private HttpSession httpSession;
 
-        public string HttpAuthToken => httpSession.Token;
+        public string HttpAuthToken => this.httpSession.Token;
 
-        public bool HasValidAuthToken() => !(httpSession == null || httpSession.HasExpired);
+        public bool HasValidAuthToken() => !(this.httpSession == null || this.httpSession.HasExpired);
 
         public void SetAuthSession(HttpSession httpSession)
         {

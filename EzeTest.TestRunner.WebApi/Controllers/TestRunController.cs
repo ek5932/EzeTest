@@ -25,13 +25,12 @@
         /// </summary>
         /// <param name="id">The ID of the test definition to run.</param>
         /// <param name="testConfiguration">The configuration to use when running the test.</param>
-        /// <returns></returns>
         [HttpPost("{id}")]
         public async Task<ActionResult> RunTest(int id, TestConfigurationResource testConfiguration)
         {
-            TestRunConfiguration domainConfiguration = objectMapper.Map(testConfiguration);
-            await testOrchestrationService.RunTest(id, domainConfiguration);
-            return Ok();
+            TestRunConfiguration domainConfiguration = this.objectMapper.Map(testConfiguration);
+            await this.testOrchestrationService.RunTest(id, domainConfiguration);
+            return this.Ok();
         }
     }
 }

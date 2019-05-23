@@ -6,7 +6,7 @@
     {
         public TestDefinition(long id)
         {
-            Id = id;
+            this.Id = id;
         }
 
         public long Id { get; }

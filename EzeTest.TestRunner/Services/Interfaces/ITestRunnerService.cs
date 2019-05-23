@@ -1,7 +1,7 @@
 ﻿namespace EzeTest.TestRunner.Services
 {
-    using EzeTest.TestRunner.Model;
     using System.Threading.Tasks;
+    using EzeTest.TestRunner.Model;
 
     public interface ITestRunnerService
     {
