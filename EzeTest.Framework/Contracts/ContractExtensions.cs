@@ -14,7 +14,7 @@
             return value;
         }
 
-        public static void VerifyIsSet(this Enum value, string propertyName, [CallerMemberName] string testThis = null)
+        public static void VerifyEnumNotDefault(this Enum value, string propertyName, [CallerMemberName] string testThis = null)
         {
         }
     }

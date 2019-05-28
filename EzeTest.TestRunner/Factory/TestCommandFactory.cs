@@ -24,7 +24,7 @@
         public ITestCommand Create(TestCommand testCommand)
         {
             testCommand.VerifyIsSet(nameof(testCommand));
-            testCommand.Type.VerifyIsSet(nameof(testCommand.Type)); // TODO: Test
+            testCommand.Type.VerifyEnumNotDefault(nameof(testCommand.Type)); // TODO: Test
 
             HttpMethod httpMethod = this.GetHttpMethod(testCommand.Type);
             return new HttpCommand(this.loggerFactory, this.httpAuthService, httpMethod, testCommand);
