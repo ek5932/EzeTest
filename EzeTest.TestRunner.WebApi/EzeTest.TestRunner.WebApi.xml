@@ -6,11 +6,10 @@
     <members>
         <member name="M:EzeTest.TestRunner.WebApi.Controllers.TestRunController.RunTest(System.Int32,EzeTest.TestRunner.WebApi.Resources.TestConfigurationResource)">
             <summary>
-            Run a test
+            Runs a test.
             </summary>
-            <param name="id">The if of the test definition to run</param>
-            <param name="testConfiguration">The configuration to use when running the test</param>
-            <returns></returns>
+            <param name="id">The ID of the test definition to run.</param>
+            <param name="testConfiguration">The configuration to use when running the test.</param>
         </member>
     </members>
 </doc>

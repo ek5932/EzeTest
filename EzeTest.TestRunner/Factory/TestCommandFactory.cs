@@ -37,7 +37,6 @@
                 case TestCommandType.HttpPut: return HttpMethod.Put;
                 case TestCommandType.HttpGet: return HttpMethod.Get;
                 case TestCommandType.HttpPost: return HttpMethod.Post;
-                case TestCommandType.HttpPatch: return HttpMethod.Patch;
                 case TestCommandType.HttpDelete: return HttpMethod.Delete;
             }
 

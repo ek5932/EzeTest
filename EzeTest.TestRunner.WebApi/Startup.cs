@@ -32,7 +32,7 @@
             services.AddScoped<ITestRunnerService, TestRunnerService>();
             services.AddScoped<ITestOrchestrationService, TestOrchestrationService>();
 
-            services.AddMvc();
+            services.AddMvcCore();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = ServiceName, Version = "v1" });
